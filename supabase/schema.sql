@@ -21,5 +21,4 @@ create policy "Public can read active songs"
 -- Optional starter rows
 insert into public.songs (title, artist) values
   ('Black Loafers', 'AKN'),
-  ('Pasaway', 'AKN'),
-  ('Is It You?', 'Ali Gatie');
+  ('Pasaway', 'AKN');
