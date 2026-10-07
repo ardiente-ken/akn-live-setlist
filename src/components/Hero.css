@@ -1,0 +1,243 @@
+.hero {
+  padding: 1rem 0 2rem;
+}
+
+.stub {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 1.25rem 1.25rem 1.1rem;
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+  transform: rotate(-1deg);
+}
+
+.hero-where {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.hero-name {
+  font-size: clamp(1.5rem, 10vw, 2.5rem);
+  font-weight: 800;
+  margin: 0.15rem 0 0.5rem;
+}
+
+.hero-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 24px;
+  margin-bottom: 0.9rem;
+}
+
+.hero-bars span {
+  width: 6px;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+  transform-origin: bottom;
+  transform: scaleY(0.3);
+  animation: beat 1.4s ease-in-out infinite;
+}
+
+@keyframes beat {
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.hero-perf {
+  border-top: 2px dashed var(--border);
+  margin-bottom: 0.9rem;
+}
+
+.hero-welcome {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.hero-blurb {
+  color: var(--muted);
+  margin: 0.4rem 0 1rem;
+  max-width: 38ch;
+}
+
+/* =========================
+   SOCIALS
+   ========================= */
+
+.hero-social-label {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.hero-socials {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0.9rem 0 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.hero-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.hero-socials a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hero-socials svg {
+  flex: none;
+}
+
+/* =========================
+   THANK YOU
+   ========================= */
+
+.hero-thanks {
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* =========================
+   BOTTOM ACTIONS
+   ========================= */
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+}
+
+.hero-cta,
+.hero-website {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  box-sizing: border-box;
+  border-radius: 999px;
+}
+
+/* Main button */
+
+.hero-cta {
+  flex: 1;
+  border: 0;
+  padding: 0 1.25rem;
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font: 600 1rem var(--font-body);
+  white-space: nowrap;
+  transition:
+    transform 0.15s ease,
+    filter 0.2s ease;
+}
+
+.hero-cta:hover {
+  filter: brightness(1.05);
+}
+
+.hero-cta:active {
+  transform: scale(0.98);
+}
+
+/* Website button */
+
+.hero-website {
+  flex: 0 0 auto;
+  padding: 0 1rem;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.hero-website:hover {
+  color: var(--text);
+  border-color: var(--muted);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* =========================
+   TABLET / DESKTOP
+   ========================= */
+
+@media (min-width: 560px) {
+  .hero {
+    padding: 1.5rem 0 2rem;
+  }
+
+  .stub {
+    padding: 1.75rem 1.75rem 1.5rem;
+  }
+
+  .hero-cta {
+    flex: 0 0 auto;
+    padding: 0 2rem;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+   ========================= */
+
+@media (max-width: 480px) {
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-cta,
+  .hero-website {
+    width: 100%;
+    flex: none;
+  }
+}
+
+/* =========================
+   REDUCED MOTION
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bars span {
+    animation: none;
+  }
+
+  .hero-socials a,
+  .hero-cta,
+  .hero-website {
+    transition: none;
+  }
+}

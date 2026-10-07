@@ -1,0 +1,15 @@
+.song-card {
+  min-height: 52px;
+  padding-block: .75rem;
+  transition: background .15s;
+}
+.song-card:hover { background: color-mix(in srgb, var(--text) 4%, transparent); }
+
+.song-title { font-weight: 600; overflow-wrap: anywhere; }
+.song-artist { color: var(--muted); font-size: .95rem; overflow-wrap: anywhere; }
+
+.card-request {
+  min-height: 44px; padding: 0 1rem; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--accent); border: 1.5px solid var(--accent);
+  font: 600 .9rem var(--font-body);
+}

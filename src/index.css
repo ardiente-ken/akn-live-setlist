@@ -1,0 +1,45 @@
+/* ===== Theme tokens: change these to re-skin the whole site ===== */
+:root {
+  --bg: #14111f;
+  --bg-glow: #2a1d3f;
+  --surface: #1e1a2e;
+  --accent: #ffb347;
+  --accent-ink: #20150a;
+  --text: #f6f1e7;
+  --muted: #a69fb8;
+  --border: #342d48;
+
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --radius: 18px;
+  --maxw: 640px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  color: var(--text);
+  font: 400 1rem/1.55 var(--font-body);
+  overflow-x: hidden;
+
+  background:
+     linear-gradient(
+      rgba(20, 17, 31, 0.7),
+      rgba(20, 17, 31, 0.7)
+    ),
+    url("./images/bg_img.jpg") center / cover fixed no-repeat;
+}
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+
+.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 1.25rem; }
+.section { padding: 3rem 0; scroll-margin-top: 0.5rem; }
+.section h2 { font-size: clamp(1.9rem, 7vw, 2.6rem); font-weight: 800; }
+.section .lede { color: var(--muted); margin-top: 0.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

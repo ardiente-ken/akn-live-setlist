@@ -1,0 +1,10 @@
+.tips { padding-bottom: 4rem; }
+.qr { margin: 1.75rem auto 0; max-width: 420px; text-align: center; }
+.qr img {
+  display: block;
+  width: 100%;
+  height: auto;            /* keeps the screenshot's own proportions */
+  border-radius: 24px;
+  box-shadow: 0 24px 50px -24px rgba(0, 0, 0, .8);
+}
+.qr figcaption { margin-top: 1rem; font-weight: 600; font-size: 1.1rem; }

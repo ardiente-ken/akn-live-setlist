@@ -1,0 +1,78 @@
+.filters {
+  margin-top: 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 0.75rem 0 0.25rem;
+  background: linear-gradient(var(--bg) 85%, transparent);
+}
+.count {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 1rem 0 0.75rem;
+}
+.song-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;                 /* clips rows to the rounded corners */
+  box-shadow: 0 16px 40px -24px rgba(0, 0, 0, .7);
+}
+
+/* header and rows share the same column layout so they line up */
+.song-list-header,
+.song-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  column-gap: 1rem;
+  align-items: center;
+  padding-inline: 1.1rem;
+}
+
+.song-list-header {
+  padding-block: .7rem;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--text) 4%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+
+.song-list ul { list-style: none; margin: 0; padding: 0; }
+.song-list li + li { border-top: 1px solid var(--border); }
+.msg {
+  color: var(--muted);
+  margin-top: 1.5rem;
+}
+.empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+}
+.empty p {
+  font-size: 1.1rem;
+}
+.empty button {
+  margin-top: 1rem;
+  min-height: 44px;
+  padding: 0 1.25rem;
+  border-radius: 999px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  font: 600 0.95rem var(--font-body);
+}
+.setlist-note {
+  margin-top: 0.75rem;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+@media (min-width: 640px) {
+  .song-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
