@@ -12,16 +12,18 @@ import RequestPage from './pages/requests/RequestPage';
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Your existing public site, untouched */}
+      {/* Public site */}
       <Route path="/" element={<App />} />
 
       {/* Audience: request a song */}
       <Route path="/request" element={<RequestPage />} />
 
-      {/* Performance Mode: read-only, shares one live request queue */}
-      <Route path="/perform" element={<PerformanceLayout />}>
-        <Route index element={<PerformancePage />} />
-        <Route path=":id" element={<PerformanceSongPage />} />
+      {/* Performance Mode: admins only */}
+      <Route path="/perform" element={<RequireAdmin />}>
+        <Route element={<PerformanceLayout />}>
+          <Route index element={<PerformancePage />} />
+          <Route path=":id" element={<PerformanceSongPage />} />
+        </Route>
       </Route>
 
       {/* Admin: signed-in admins only */}
