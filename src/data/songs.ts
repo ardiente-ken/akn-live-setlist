@@ -41,5 +41,14 @@ const raw: Array<[string, string]> = [
 ];
 
 export const SAMPLE_SONGS: Song[] = raw
-  .map(([title, artist], i) => ({ id: `local-${i + 1}`, title, artist }))
+  .map(([title, artist], i) => ({
+    id: `local-${i + 1}`,
+    title,
+    artist,
+    lyrics: '',
+    chords: '',
+    is_active: true,
+    created_at: '',
+    updated_at: '',
+  }))
   .sort((a, b) => a.title.localeCompare(b.title));
