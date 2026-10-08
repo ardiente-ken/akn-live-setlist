@@ -1,0 +1,42 @@
+.admin-inner { max-width: 1100px; margin: 0 auto; padding: 16px 16px 64px; }
+.admin-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.admin-head h1 { margin: 0; font-size: 1.6rem; }
+.admin-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.admin-muted { color: var(--gt-muted); }
+.admin-error { color: var(--gt-danger); margin: 12px 0; }
+.admin-count { color: var(--gt-muted); margin: 12px 0; font-size: 0.9rem; }
+
+.admin-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.admin-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 14px; border: 1px solid var(--gt-border); border-radius: 12px; background: var(--gt-surface);
+}
+.admin-row-main { min-width: 0; }
+.admin-row-title { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.admin-row-sub { color: var(--gt-muted); font-size: 0.9rem; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.admin-row-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--gt-border); font-weight: 700; }
+.badge-off { color: var(--gt-muted); }
+.badge-warn { color: var(--gt-accent); border-color: var(--gt-accent); }
+
+.login { max-width: 380px; margin: 12vh auto 0; display: grid; gap: 14px; }
+.login h1 { margin: 0; }
+.login label { display: grid; gap: 6px; font-size: 0.9rem; color: var(--gt-muted); }
+
+/* Song form */
+.sf-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 900px) { .sf-grid { grid-template-columns: 1fr 1fr; align-items: start; } }
+.sf-fields { display: grid; gap: 14px; }
+.sf-row { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 600px) { .sf-row { grid-template-columns: 1fr 1fr; } }
+.sf-field { display: grid; gap: 6px; font-size: 0.9rem; color: var(--gt-muted); }
+.sf-lyrics { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.95rem; line-height: 1.5; resize: vertical; white-space: pre; overflow-x: auto; }
+.sf-hint { color: var(--gt-muted); font-size: 0.8rem; line-height: 1.4; }
+.sf-check { display: flex; gap: 10px; align-items: center; }
+.sf-check input { width: 20px; height: 20px; accent-color: var(--gt-accent); }
+.sf-preview { background: var(--gt-surface); border: 1px solid var(--gt-border); border-radius: 12px; padding: 16px; max-height: 80vh; overflow-y: auto; }
+.sf-preview-head { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gt-muted); font-weight: 800; }
+.sf-preview-title { margin: 6px 0 0; font-size: 1.4rem; }
+.sf-preview-artist { margin: 2px 0 8px; color: var(--gt-muted); }
+.sf-preview-chords { margin: 0 0 8px; color: var(--gt-accent); font-weight: 700; }
+.sf-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }

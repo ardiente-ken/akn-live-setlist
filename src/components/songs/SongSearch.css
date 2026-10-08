@@ -1,0 +1,26 @@
+.song-search { position: relative; }
+.song-search input {
+  width: 100%;
+  padding: 14px 44px 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--gt-border, #2e2e36);
+  background: var(--gt-surface, #17171b);
+  color: var(--gt-text, #f4f4f5);
+  font: inherit;
+  font-size: 1.05rem;
+}
+.song-search input:focus { outline: 2px solid var(--gt-accent, #ffc233); outline-offset: 1px; }
+.song-search button {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--gt-muted, #9a9aa5);
+  font-size: 1.4rem;
+  cursor: pointer;
+}

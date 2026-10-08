@@ -22,13 +22,9 @@ body {
   color: var(--text);
   font: 400 1rem/1.55 var(--font-body);
   overflow-x: hidden;
-
   background:
-     linear-gradient(
-      rgba(20, 17, 31, 0.7),
-      rgba(20, 17, 31, 0.7)
-    ),
-    url("./images/bg_img.jpg") center / cover fixed no-repeat;
+    radial-gradient(circle at top right, rgba(80, 70, 120, 0.12), transparent 35%),
+    #0f1117;
 }
 h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
 p { margin: 0; }

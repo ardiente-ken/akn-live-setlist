@@ -1,42 +1,52 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { SAMPLE_SONGS } from '../data/songs';
-import type { Song } from '../models/song.model';
+// The single place that talks to the `songs` table.
+// NOTE: if your existing songService.ts exports other functions that
+// Setlist / SongFilter use, merge them into this file rather than losing them.
+import { supabase } from '../lib/supabase';
+import type { Song, SongInput } from '../models/song.model';
 
-/**
- * The one place that knows where songs come from.
- * Components only call getSongs(); they never touch Supabase directly.
- */
-const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+const TABLE = 'songs';
 
-let client: SupabaseClient | null = null;
-let cache: Promise<Song[]> | null = null;
-
-function getClient(): SupabaseClient | null {
-  if (!url || !key) return null;
-  return (client ??= createClient(url, key, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  }));
+export interface GetSongsOptions {
+  /** Only songs marked active (public setlist + performance mode). */
+  activeOnly?: boolean;
 }
 
-async function load(): Promise<Song[]> {
-  const db = getClient();
-  if (!db) return [...SAMPLE_SONGS];
+export async function getSongs({ activeOnly = false }: GetSongsOptions = {}): Promise<Song[]> {
+  let query = supabase.from(TABLE).select('*').order('title', { ascending: true });
+  if (activeOnly) query = query.eq('is_active', true);
+  const { data, error } = await query;
+  if (error) throw new Error(error.message);
+  return (data ?? []) as Song[];
+}
 
-  const { data, error } = await db
-    .from('songs')
-    .select('id, title, artist')
-    .eq('is_active', true)
-    .order('title');
+export async function getSong(id: string): Promise<Song | null> {
+  const { data, error } = await supabase.from(TABLE).select('*').eq('id', id).maybeSingle();
+  if (error) throw new Error(error.message);
+  return (data as Song | null) ?? null;
+}
 
-  if (error) {
-    cache = null; // allow retry
-    throw error;
+export async function createSong(song: SongInput): Promise<Song> {
+  const { data, error } = await supabase.from(TABLE).insert(song).select().single();
+  if (error) throw new Error(error.message);
+  return data as Song;
+}
+
+export async function updateSong(id: string, song: Partial<SongInput>): Promise<Song> {
+  const { data, error } = await supabase
+    .from(TABLE)
+    .update(song)
+    .eq('id', id)
+    .select()
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error('Song not found, or you do not have permission to edit it.');
+  return data as Song;
+}
+
+export async function deleteSong(id: string): Promise<void> {
+  const { data, error } = await supabase.from(TABLE).delete().eq('id', id).select('id');
+  if (error) throw new Error(error.message);
+  if (!data || data.length === 0) {
+    throw new Error('Song not found, or you do not have permission to delete it.');
   }
-  return data as Song[];
-}
-
-/** Active songs sorted by title. Fetched once per page load. */
-export function getSongs(): Promise<Song[]> {
-  return (cache ??= load());
 }
