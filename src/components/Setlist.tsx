@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import type { Song } from "../models/song.model";
 import { getSongs } from "../services/songService";
 import SongCard from "./SongCard";
 import SongFilter from "./SongFilter";
 import "./Setlist.css";
 
-/** Flip to true when the request feature is built. */
-const requestsEnabled = false;
+/** Show a Request button on each song (needs the song_requests table). */
+const requestsEnabled = true;
 
 /** Strip accents and lowercase so "Beyonce" matches "Beyoncé". */
 const norm = (s: string) =>
@@ -27,7 +28,7 @@ export default function Setlist() {
   const load = useCallback(async () => {
     setStatus("loading");
     try {
-      setSongs(await getSongs());
+      setSongs(await getSongs({ activeOnly: true }));
       setStatus("ready");
     } catch (err) {
       console.error("Could not load songs:", err);
@@ -71,8 +72,17 @@ export default function Setlist() {
           Search by song or artist, or tap a name to see just their songs.
         </p>
         <p className="setlist-note">
-          Feel like hearing something from the list? Just come up to me and let
-          me know :&gt;
+          {requestsEnabled ? (
+            <>
+              Feel like hearing something? Tap <strong>Request</strong> next to
+              a song.
+            </>
+          ) : (
+            <>
+              Feel like hearing something from the list? Just come up to me and
+              let me know :&gt;
+            </>
+          )}
         </p>
         <div className="filters">
           <SongFilter
@@ -94,6 +104,9 @@ export default function Setlist() {
                 <div className="song-list-header">
                   <span>TITLE</span>
                   <span>ARTIST</span>
+                  {/* Empty cell above the Request buttons. Delete this line
+                      if your header columns look misaligned. */}
+                  {requestsEnabled && <span aria-hidden="true" />}
                 </div>
 
                 <ul>
@@ -126,6 +139,12 @@ export default function Setlist() {
           </div>
         )}
       </div>
+      <p className="setlist-note">
+        {" "}
+        Can't find the song you're looking for? You can always come up to me and
+        I'll use my existing musical knowledge to try and play it — if I know
+        how to play it, that is xD{" "}
+      </p>
     </section>
   );
 }

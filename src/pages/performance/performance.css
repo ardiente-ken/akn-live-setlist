@@ -19,7 +19,7 @@
 .perf-pos { font-size: 1.25rem; font-weight: 800; font-variant-numeric: tabular-nums; }
 .perf-tools { display: flex; gap: 6px; }
 .perf-btn {
-  min-width: 44px; height: 44px; padding: 0 12px;
+  min-width: 42px; height: 44px; padding: 0 10px;
   border-radius: 10px; border: 1px solid var(--gt-border);
   background: var(--gt-surface); color: var(--gt-text);
   font: inherit; font-weight: 700; cursor: pointer;

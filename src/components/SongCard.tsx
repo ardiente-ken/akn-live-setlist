@@ -1,33 +1,21 @@
 import type { Song } from "../models/song.model";
+import RequestSongButton from "./requests/RequestSongButton";
 import "./SongCard.css";
 
 interface Props {
   song: Song;
-  /** Reserved for the future request feature. */
+  /** Show the Request button on this card. */
   requestable?: boolean;
-  onRequest?: (song: Song) => void;
 }
 
-export default function SongCard({
-  song,
-  requestable = false,
-  onRequest,
-}: Props) {
+export default function SongCard({ song, requestable = false }: Props) {
   return (
     <article className="song-card">
       <span className="song-title">{song.title}</span>
       <span className="song-artist">{song.artist}</span>
 
-      {/* FUTURE: song requests */}
       {requestable && (
-        <button
-          type="button"
-          className="card-request"
-          aria-label={`Request ${song.title}`}
-          onClick={() => onRequest?.(song)}
-        >
-          Request
-        </button>
+        <RequestSongButton song={song} className="card-request" />
       )}
     </article>
   );

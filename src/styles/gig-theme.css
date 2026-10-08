@@ -1,5 +1,7 @@
-/* Shared dark theme tokens for Admin + Performance Mode */
-.gig-theme {
+/* Shared dark theme tokens for Admin, Performance Mode and Requests.
+   .gig-vars = tokens only (for overlays); .gig-theme = tokens + full-screen shell. */
+.gig-theme,
+.gig-vars {
   --gt-bg: #0b0b0d;
   --gt-surface: #17171b;
   --gt-surface-2: #202026;
@@ -9,20 +11,26 @@
   --gt-accent: #ffc233;
   --gt-danger: #ff6b6b;
   --gt-ok: #4ade80;
-  background: var(--gt-bg);
   color: var(--gt-text);
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   text-align: left;
+}
+.gig-theme {
+  background: var(--gt-bg);
   position: fixed;
   inset: 0;
   overflow-y: auto;
 }
 .gig-theme *,
 .gig-theme *::before,
-.gig-theme *::after {
+.gig-theme *::after,
+.gig-vars *,
+.gig-vars *::before,
+.gig-vars *::after {
   box-sizing: border-box;
 }
-.gig-theme a {
+.gig-theme a,
+.gig-vars a {
   color: inherit;
   text-decoration: none;
 }

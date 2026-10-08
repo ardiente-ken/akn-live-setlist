@@ -1,14 +1,17 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
+import QueueButton from '../../components/requests/QueueButton';
 import SongSearch from '../../components/songs/SongSearch';
 import { useSongs } from '../../hooks/useSongs';
 import { filterSongs } from '../../lib/filterSongs';
+import type { QueueContext } from '../../models/request.model';
 import '../../styles/gig-theme.css';
 import './performance.css';
 
 /** Step 1 of Performance Mode: search and pick a song. Read-only. */
 export default function PerformancePage() {
   const { songs, loading, error } = useSongs({ activeOnly: true });
+  const { requests, openPanel } = useOutletContext<QueueContext>();
   const [query, setQuery] = useState('');
   const filtered = useMemo(() => filterSongs(songs, query), [songs, query]);
 
@@ -17,7 +20,7 @@ export default function PerformancePage() {
       <header className="perf-bar">
         <Link to="/" className="perf-link">← Setlist</Link>
         <h1>Performance mode</h1>
-        <span style={{ width: 72 }} />
+        <QueueButton count={requests.length} onClick={openPanel} />
       </header>
       {error && songs.length > 0 && (
         <p className="perf-offline">Offline: showing songs saved on this device.</p>

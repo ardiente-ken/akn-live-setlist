@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import QueueButton from '../../components/requests/QueueButton';
 import ChordLyrics from '../../components/songs/ChordLyrics';
 import { useSongs } from '../../hooks/useSongs';
+import type { QueueContext } from '../../models/request.model';
 import { useSwipe } from '../../hooks/useSwipe';
 import { useWakeLock } from '../../hooks/useWakeLock';
 import '../../styles/gig-theme.css';
@@ -24,6 +26,7 @@ function readSize(): number {
 export default function PerformanceSongPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { requests, openPanel } = useOutletContext<QueueContext>();
   const { songs, loading, error } = useSongs({ activeOnly: true });
   const [fontSize, setFontSize] = useState(readSize);
   const [showChords, setShowChords] = useState(true);
@@ -83,7 +86,7 @@ export default function PerformanceSongPage() {
   return (
     <div className="perf gig-theme" {...swipe}>
       <header className="perf-bar">
-        <Link to="/perform" className="perf-btn" aria-label="Back to song list">☰ Songs</Link>
+        <Link to="/perform" className="perf-btn" aria-label="Back to song list">☰</Link>
         <span className="perf-pos" aria-live="polite">
           {index + 1} / {songs.length}
         </span>
@@ -94,6 +97,7 @@ export default function PerformanceSongPage() {
             onClick={() => setFontSize((s) => Math.min(MAX, s + 2))}>A+</button>
           <button className="perf-btn" aria-pressed={showChords} aria-label="Toggle chords"
             onClick={() => setShowChords((v) => !v)}>♯</button>
+          <QueueButton count={requests.length} onClick={openPanel} />
         </div>
       </header>
 

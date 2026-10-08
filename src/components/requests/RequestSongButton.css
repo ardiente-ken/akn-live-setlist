@@ -1,0 +1,295 @@
+.rsb {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.rsb-btn {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--rsb-accent, #e8a400);
+  background: transparent;
+  color: var(--rsb-accent, #e8a400);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.rsb-btn:hover:not(:disabled) {
+  background: var(--rsb-accent, #e8a400);
+  color: var(--rsb-on-accent, #111);
+}
+
+.rsb-btn.is-sent {
+  border-color: #2e9e5b;
+  color: #2e9e5b;
+  cursor: default;
+}
+
+.rsb-btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.rsb-msg {
+  font-size: 0.75rem;
+  color: #d64545;
+  max-width: 180px;
+}
+
+/* ================================
+   REQUEST POPUP
+   ================================ */
+
+.rsb-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+/* Popup card */
+
+.rsb-popup {
+  position: relative;
+
+  width: min(100%, 390px);
+
+  padding: 2rem 1.5rem 1.5rem;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  text-align: center;
+
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+
+  animation: rsb-popup-in 0.18s ease-out;
+}
+
+@keyframes rsb-popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Close button */
+
+.rsb-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.7rem;
+
+  width: 36px;
+  height: 36px;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: var(--muted);
+
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.rsb-close:hover {
+  color: var(--text);
+}
+
+/* Icon */
+
+.rsb-icon {
+  margin-bottom: 0.6rem;
+  font-size: 2rem;
+}
+
+/* Heading */
+
+.rsb-popup h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+
+/* Song information */
+
+.rsb-song-title {
+  margin: 0.9rem 0 0.15rem;
+
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.rsb-song-artist {
+  margin: 0;
+
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Tip message */
+
+.rsb-tip {
+  margin: 1.25rem 0 0;
+  padding: 0.9rem 1rem;
+
+  border-radius: 12px;
+
+  background: color-mix(
+    in srgb,
+    var(--rsb-accent, #e8a400) 9%,
+    transparent
+  );
+
+  color: var(--muted);
+
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* Error message inside popup */
+
+.rsb-error {
+  margin: 0.8rem 0 0;
+
+  color: #d64545;
+
+  font-size: 0.8rem;
+}
+
+/* Buttons */
+
+.rsb-actions {
+  display: flex;
+  gap: 0.6rem;
+
+  margin-top: 1.25rem;
+}
+
+.rsb-cancel,
+.rsb-confirm {
+  flex: 1;
+
+  min-height: 44px;
+  padding: 0 1rem;
+
+  border-radius: 999px;
+
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* Cancel */
+
+.rsb-cancel {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+}
+
+.rsb-cancel:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+/* Confirm */
+
+.rsb-confirm {
+  border: 1px solid var(--rsb-accent, #e8a400);
+
+  background: var(--rsb-accent, #e8a400);
+  color: var(--rsb-on-accent, #111);
+}
+
+.rsb-confirm:hover {
+  opacity: 0.9;
+}
+
+.rsb-confirm:disabled,
+.rsb-cancel:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .rsb-popup {
+    width: 100%;
+    padding: 1.75rem 1.25rem 1.25rem;
+  }
+
+  .rsb-actions {
+    flex-direction: column-reverse;
+  }
+
+  .rsb-cancel,
+  .rsb-confirm {
+    width: 100%;
+  }
+}
+
+.rsb-tip {
+  margin: 1.25rem 0 0;
+  padding: 1rem;
+
+  border-radius: 14px;
+
+  background: color-mix(
+    in srgb,
+    var(--rsb-accent, #e8a400) 9%,
+    transparent
+  );
+
+  color: var(--muted);
+
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.rsb-tip p {
+  margin: 0 0 0.9rem;
+}
+
+.rsb-gcash {
+  display: block;
+
+  width: 150px;
+  height: 150px;
+
+  margin: 0 auto;
+
+  object-fit: contain;
+
+  border-radius: 8px;
+  background: #fff;
+}
