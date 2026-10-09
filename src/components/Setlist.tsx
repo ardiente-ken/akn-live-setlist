@@ -104,18 +104,18 @@ export default function Setlist() {
                 <div className="song-list-header">
                   <span>TITLE</span>
                   <span>ARTIST</span>
-                  {/* Empty cell above the Request buttons. Delete this line
-                      if your header columns look misaligned. */}
                   {requestsEnabled && <span aria-hidden="true" />}
                 </div>
 
-                <ul>
-                  {filtered.map((s) => (
-                    <li key={s.id}>
-                      <SongCard song={s} requestable={requestsEnabled} />
-                    </li>
-                  ))}
-                </ul>
+                <div className="song-list-scroll">
+                  <ul>
+                    {filtered.map((s) => (
+                      <li key={s.id}>
+                        <SongCard song={s} requestable={requestsEnabled} />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             ) : (
               <div className="empty">
@@ -143,7 +143,7 @@ export default function Setlist() {
         {" "}
         Can't find the song you're looking for? You can always come up to me and
         I'll use my existing musical knowledge to try and play it — if I know
-        how to play it, that is xD{" "}
+        how to play it, that is hehe{" "}
       </p>
     </section>
   );

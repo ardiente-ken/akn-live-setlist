@@ -120,3 +120,24 @@
 .setlist-note strong {
   color: var(--text);
 }
+.song-list-scroll {
+  max-height: 600px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+/* Keep the column headings visible while scrolling */
+.song-list-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--surface);
+}
+
+/* Optional: smoother scrollbar behavior on mobile */
+.song-list-scroll ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
