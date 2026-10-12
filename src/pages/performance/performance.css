@@ -60,3 +60,21 @@
 .perf-song-title { font-size: 1.25rem; font-weight: 700; }
 .perf-song-artist { color: var(--gt-muted); }
 .perf-song-flag { color: var(--gt-accent); font-size: 0.8rem; font-weight: 700; }
+
+/* Song row with "played" star */
+.perf-song-row {
+  display: flex; align-items: stretch;
+  border: 1px solid var(--gt-border); border-radius: 12px;
+  background: var(--gt-surface); overflow: hidden;
+}
+.perf-song-row:focus-within { border-color: var(--gt-accent); }
+.perf-song-row .perf-song {
+  flex: 1; min-width: 0; border: 0; border-radius: 0; background: none;
+}
+.perf-star {
+  width: 64px; flex-shrink: 0; border: 0; border-left: 1px solid var(--gt-border);
+  background: none; color: var(--gt-muted); font-size: 1.7rem; line-height: 1; cursor: pointer;
+}
+.perf-star[aria-pressed='true'] { color: var(--gt-accent); }
+.perf-song-row.is-played .perf-song { opacity: 0.55; }
+.perf-played-count { margin: 10px 2px 0; color: var(--gt-muted); font-size: 0.85rem; }

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import QueueButton from '../../components/requests/QueueButton';
 import SongSearch from '../../components/songs/SongSearch';
+import { usePlayedSongs } from '../../hooks/usePlayedSongs';
 import { useSongs } from '../../hooks/useSongs';
 import { filterSongs } from '../../lib/filterSongs';
 import type { QueueContext } from '../../models/request.model';
@@ -12,6 +13,7 @@ import './performance.css';
 export default function PerformancePage() {
   const { songs, loading, error } = useSongs({ activeOnly: true });
   const { requests, openPanel } = useOutletContext<QueueContext>();
+  const { isPlayed, toggle, count } = usePlayedSongs();
   const [query, setQuery] = useState('');
   const filtered = useMemo(() => filterSongs(songs, query), [songs, query]);
 
@@ -27,18 +29,35 @@ export default function PerformancePage() {
       )}
       <div className="perf-picker-body">
         <SongSearch value={query} onChange={setQuery} />
+        {songs.length > 0 && (
+          <p className="perf-played-count">
+            ★ {count} played
+          </p>
+        )}
         {loading && songs.length === 0 && <p className="perf-msg">Loading songs…</p>}
         {error && songs.length === 0 && <p className="perf-msg">Couldn't load songs: {error}</p>}
         <ul className="perf-songs">
-          {filtered.map((song) => (
-            <li key={song.id}>
-              <Link to={`/perform/${song.id}`} className="perf-song">
-                <span className="perf-song-title">{song.title}</span>
-                <span className="perf-song-artist">{song.artist}</span>
-                {!song.lyrics.trim() && <span className="perf-song-flag">no lyrics yet</span>}
-              </Link>
-            </li>
-          ))}
+          {filtered.map((song) => {
+            const played = isPlayed(song.id);
+            return (
+              <li key={song.id} className={`perf-song-row ${played ? 'is-played' : ''}`}>
+                <Link to={`/perform/${song.id}`} className="perf-song">
+                  <span className="perf-song-title">{song.title}</span>
+                  <span className="perf-song-artist">{song.artist}</span>
+                  {!song.lyrics.trim() && <span className="perf-song-flag">no lyrics yet</span>}
+                </Link>
+                <button
+                  type="button"
+                  className="perf-star"
+                  aria-pressed={played}
+                  aria-label={played ? `Unmark ${song.title} as played` : `Mark ${song.title} as played`}
+                  onClick={() => toggle(song.id)}
+                >
+                  {played ? '★' : '☆'}
+                </button>
+              </li>
+            );
+          })}
         </ul>
         {!loading && !error && filtered.length === 0 && <p className="perf-msg">No songs found.</p>}
       </div>
