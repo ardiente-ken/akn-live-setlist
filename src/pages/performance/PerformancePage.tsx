@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import QueueButton from '../../components/requests/QueueButton';
+import RequestsToggle from '../../components/requests/RequestsToggle';
 import SongSearch from '../../components/songs/SongSearch';
+import { useAuth } from '../../hooks/useAuth';
 import { usePlayedSongs } from '../../hooks/usePlayedSongs';
 import { useSongs } from '../../hooks/useSongs';
 import { filterSongs } from '../../lib/filterSongs';
@@ -14,6 +16,7 @@ export default function PerformancePage() {
   const { songs, loading, error } = useSongs({ activeOnly: true });
   const { requests, openPanel } = useOutletContext<QueueContext>();
   const { isPlayed, toggle, count } = usePlayedSongs();
+  const { isAdmin } = useAuth();
   const [query, setQuery] = useState('');
   const filtered = useMemo(() => filterSongs(songs, query), [songs, query]);
 
@@ -28,6 +31,7 @@ export default function PerformancePage() {
         <p className="perf-offline">Offline: showing songs saved on this device.</p>
       )}
       <div className="perf-picker-body">
+        {isAdmin && <RequestsToggle />}
         <SongSearch value={query} onChange={setQuery} />
         {songs.length > 0 && (
           <p className="perf-played-count">

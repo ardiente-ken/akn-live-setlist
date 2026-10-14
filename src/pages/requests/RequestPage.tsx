@@ -3,6 +3,7 @@ import type { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import '../../components/requests/requests.css';
 import SongSearch from '../../components/songs/SongSearch';
+import { useRequestsEnabled } from '../../hooks/useRequestsEnabled';
 import { useSongs } from '../../hooks/useSongs';
 import { filterSongs } from '../../lib/filterSongs';
 import { createRequest } from '../../services/requestService';
@@ -36,6 +37,7 @@ const write = (key: string, value: string) => {
 /** Public page: the audience picks a song (or types one) and sends a request. */
 export default function RequestPage() {
   const { songs, loading, error } = useSongs({ activeOnly: true });
+  const { enabled, error: settingError } = useRequestsEnabled();
   const [query, setQuery] = useState('');
   const [draft, setDraft] = useState<Draft | null>(null);
   const [name, setName] = useState(() => read(NAME_KEY) ?? '');
@@ -81,6 +83,26 @@ export default function RequestPage() {
             Request another song
           </button>
           <Link to="/" className="rp-back">← Back to setlist</Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Requests closed (or the setting can't be read): no form, no list. Updates live.
+  if (enabled !== true) {
+    const checking = enabled === null && !settingError;
+    return (
+      <div className="gig-theme">
+        <div className="rp rp-done">
+          {checking ? (
+            <p className="rp-lead">Checking…</p>
+          ) : (
+            <>
+              <h2>Requests are closed 🎶</h2>
+              <p>We're not taking song requests right now. Enjoy the music and check back later!</p>
+              <Link to="/" className="gt-btn gt-btn-primary">Browse the setlist</Link>
+            </>
+          )}
         </div>
       </div>
     );

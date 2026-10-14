@@ -1,5 +1,6 @@
 // All database + realtime access for song requests lives here.
 import { supabase } from '../lib/supabase';
+import { getRequestsEnabled } from './settingsService';
 import type { NewSongRequest, RequestStatus, SongRequest } from '../models/request.model';
 
 const TABLE = 'song_requests';
@@ -32,11 +33,21 @@ export async function createRequest(input: NewSongRequest): Promise<void> {
     .from(TABLE)
     .insert({ song_id: input.song_id, title, artist, requester_name });
   if (error) {
-    throw new Error(
-      error.message.includes('row-level security')
-        ? 'The request queue is full right now. Please try again in a bit.'
-        : error.message,
-    );
+    if (error.message.includes('row-level security')) {
+      // The database refused the insert: either requests are closed or the queue is full
+      let open = false;
+      try {
+        open = await getRequestsEnabled();
+      } catch {
+        /* treat as closed */
+      }
+      throw new Error(
+        open
+          ? 'The request queue is full right now. Please try again in a bit.'
+          : 'Song requests are closed right now.',
+      );
+    }
+    throw new Error(error.message);
   }
 }
 

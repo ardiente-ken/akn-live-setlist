@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useRequestsEnabled } from "../hooks/useRequestsEnabled";
 import type { Song } from "../models/song.model";
 import { getSongs } from "../services/songService";
 import SongCard from "./SongCard";
 import SongFilter from "./SongFilter";
 import "./Setlist.css";
-
-/** Show a Request button on each song (needs the song_requests table). */
-const requestsEnabled = true;
 
 /** Strip accents and lowercase so "Beyonce" matches "Beyoncé". */
 const norm = (s: string) =>
@@ -24,6 +22,12 @@ export default function Setlist() {
   const [status, setStatus] = useState<Status>("loading");
   const [query, setQuery] = useState("");
   const [artist, setArtist] = useState("");
+
+  // Live from Supabase (Realtime). null = still loading. If the setting can't
+  // be read at all, requests are treated as closed (the database enforces it too).
+  const { enabled: requestState, error: requestError } = useRequestsEnabled();
+  const requestsEnabled = requestState === true;
+  const requestsLoading = requestState === null && !requestError;
 
   const load = useCallback(async () => {
     setStatus("loading");
@@ -71,19 +75,21 @@ export default function Setlist() {
         <p className="lede">
           Search by song or artist, or tap a name to see just their songs.
         </p>
-        <p className="setlist-note">
-          {requestsEnabled ? (
-            <>
-              Feel like hearing something? Tap <strong>Request</strong> next to
-              a song.
-            </>
-          ) : (
-            <>
-              Feel like hearing something from the list? Just come up to me and
-              let me know :&gt;
-            </>
-          )}
-        </p>
+        {!requestsLoading && (
+          <p className="setlist-note" role="status">
+            {requestsEnabled ? (
+              <>
+                Feel like hearing something? Tap <strong>Request</strong> next
+                to a song 
+              </>
+            ) : (
+              <>
+                Song requests are closed right now. Enjoy the music, and check
+                back later! 🎶
+              </>
+            )}
+          </p>
+        )}
         <div className="filters">
           <SongFilter
             artists={artists}
@@ -104,18 +110,18 @@ export default function Setlist() {
                 <div className="song-list-header">
                   <span>TITLE</span>
                   <span>ARTIST</span>
+                  {/* Empty cell above the Request buttons. Delete this line
+                      if your header columns look misaligned. */}
                   {requestsEnabled && <span aria-hidden="true" />}
                 </div>
 
-                <div className="song-list-scroll">
-                  <ul>
-                    {filtered.map((s) => (
-                      <li key={s.id}>
-                        <SongCard song={s} requestable={requestsEnabled} />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <ul>
+                  {filtered.map((s) => (
+                    <li key={s.id}>
+                      <SongCard song={s} requestable={requestsEnabled} />
+                    </li>
+                  ))}
+                </ul>
               </div>
             ) : (
               <div className="empty">
@@ -139,12 +145,6 @@ export default function Setlist() {
           </div>
         )}
       </div>
-      <p className="setlist-note">
-        {" "}
-        Can't find the song you're looking for? You can always come up to me and
-        I'll use my existing musical knowledge to try and play it — if I know
-        how to play it, that is hehe{" "}
-      </p>
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { timeAgo } from '../../lib/timeAgo';
+import RequestsToggle from './RequestsToggle';
 import type { RequestStatus, SongRequest } from '../../models/request.model';
 import '../../styles/gig-theme.css';
 import './requests.css';
@@ -31,6 +32,8 @@ export default function RequestQueuePanel({
           <span className={`rq-live ${connected ? 'on' : ''}`}>{connected ? '● Live' : 'Reconnecting…'}</span>
           <button className="rq-close" aria-label="Close queue" onClick={onClose}>×</button>
         </header>
+
+        {canManage && <RequestsToggle />}
 
         {error && <p className="rq-error" role="alert">{error}</p>}
         {requests.length === 0 && <p className="rq-empty">No requests waiting.</p>}

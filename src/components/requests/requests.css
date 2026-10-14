@@ -94,3 +94,28 @@
 .rp-done { text-align: center; padding: 48px 8px; display: grid; gap: 14px; justify-items: center; }
 .rp-done h2 { margin: 0; font-size: 1.6rem; }
 .rp-error { color: var(--gt-danger); margin: 0; }
+
+/* ---------- Requests open/closed switch ---------- */
+.rt {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 14px; margin: 0 0 14px;
+  border: 1px solid var(--gt-border); border-radius: 12px;
+  background: var(--gt-bg); color: var(--gt-text);
+}
+.rt-text { min-width: 0; }
+.rt-title { font-weight: 700; }
+.rt-sub { color: var(--gt-muted); font-size: 0.85rem; margin-top: 2px; }
+.rt-error { color: var(--gt-danger); font-size: 0.85rem; margin-top: 4px; }
+.rt-switch {
+  position: relative; width: 56px; height: 32px; flex-shrink: 0; padding: 0;
+  border-radius: 999px; border: 1px solid var(--gt-border); background: var(--gt-surface-2);
+  cursor: pointer; transition: background 0.15s;
+}
+.rt-switch::after {
+  content: ''; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px;
+  border-radius: 50%; background: var(--gt-muted); transition: transform 0.15s, background 0.15s;
+}
+.rt-switch[aria-checked='true'] { background: var(--gt-accent); border-color: var(--gt-accent); }
+.rt-switch[aria-checked='true']::after { transform: translateX(24px); background: #111; }
+.rt-switch:disabled { opacity: 0.5; cursor: not-allowed; }
+.rt-switch:focus-visible { outline: 2px solid var(--gt-accent); outline-offset: 2px; }
