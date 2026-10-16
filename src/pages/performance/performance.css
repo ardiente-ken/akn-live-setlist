@@ -78,3 +78,16 @@
 .perf-star[aria-pressed='true'] { color: var(--gt-accent); }
 .perf-song-row.is-played .perf-song { opacity: 0.55; }
 .perf-played-count { margin: 10px 2px 0; color: var(--gt-muted); font-size: 0.85rem; }
+
+/* Folder chips */
+.perf-chips { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 2px; }
+.perf-chip {
+  flex-shrink: 0; padding: 8px 14px; border-radius: 999px; white-space: nowrap;
+  border: 1px solid var(--gt-border); background: var(--gt-surface); color: var(--gt-text);
+  font: inherit; font-weight: 600; cursor: pointer;
+}
+.perf-chip[aria-pressed='true'] { background: var(--gt-accent); border-color: var(--gt-accent); color: #111; }
+.perf-sub { margin: 4px 2px 0; color: var(--gt-muted); font-size: 0.9rem; }
+
+/* Standalone song links (public songbook pages have no star button) */
+.perf-song-solo { border: 1px solid var(--gt-border); border-radius: 12px; background: var(--gt-surface); }

@@ -35,6 +35,7 @@ export default function AdminPage() {
         <h1>Song admin</h1>
         <div className="admin-actions">
           <Link to="/admin/songs/new" className="gt-btn gt-btn-primary">+ Add song</Link>
+          <Link to="/admin/folders" className="gt-btn">Folders</Link>
           <Link to="/perform" className="gt-btn">Performance mode</Link>
           <Link to="/" className="gt-btn">Site</Link>
           <button className="gt-btn" onClick={() => void signOut()}>Sign out</button>
