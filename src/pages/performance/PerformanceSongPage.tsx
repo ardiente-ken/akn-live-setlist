@@ -1,19 +1,19 @@
 import { useMemo } from 'react';
 import { Link, useOutletContext, useParams, useSearchParams } from 'react-router-dom';
+import ErrorBoundary from '../../components/ErrorBoundary';
 import QueueButton from '../../components/requests/QueueButton';
 import SongViewer from '../../components/songs/SongViewer';
+import TransposeControl from '../../components/songs/TransposeControl';
 import { useAuth } from '../../hooks/useAuth';
 import { useFolders } from '../../hooks/useFolders';
 import { useSongs } from '../../hooks/useSongs';
+import { useTranspose } from '../../hooks/useTranspose';
 import { songsForFolder } from '../../lib/folderSongs';
+import { transposeInline, transposeText } from '../../lib/transpose';
 import type { QueueContext } from '../../models/request.model';
 import '../../styles/gig-theme.css';
 import './performance.css';
 
-/**
- * Read-only song view. With ?folder=<slug> the song list (and the "3 / 18"
- * position, swipe order and Prev/Next) is limited to that folder, in its order.
- */
 export default function PerformanceSongPage() {
   const { id } = useParams();
   const [params] = useSearchParams();
@@ -22,6 +22,7 @@ export default function PerformanceSongPage() {
   const { songs, loading, error } = useSongs({ activeOnly: true });
   const { isAdmin, loading: authLoading } = useAuth();
   const { folders, members, loading: foldersLoading } = useFolders({ enabled: isAdmin });
+  const { semitones, up, down, reset } = useTranspose(id);
 
   const folder = folderSlug ? (folders.find((f) => f.slug === folderSlug) ?? null) : null;
   const waitingForFolder = !!folderSlug && !folder && (authLoading || foldersLoading);
@@ -33,6 +34,23 @@ export default function PerformanceSongPage() {
 
   const suffix = folder ? `?folder=${encodeURIComponent(folder.slug)}` : '';
   const index = list.findIndex((s) => s.id === id);
+
+  // Must stay above the early return below (hooks can't be conditional).
+  const displayList = useMemo(() => {
+    if (index < 0 || semitones === 0) return list;
+    try {
+      const song = list[index];
+      const transposed = {
+        ...song,
+        lyrics: transposeText(song.lyrics, semitones),
+        chords: transposeInline(song.chords, semitones),
+      };
+      return list.map((s, i) => (i === index ? transposed : s));
+    } catch (e) {
+      console.error('Transpose failed', e);
+      return list;
+    }
+  }, [list, index, semitones]);
 
   if (index < 0) {
     return (
@@ -52,13 +70,20 @@ export default function PerformanceSongPage() {
   }
 
   return (
-    <SongViewer
-      songs={list}
-      index={index}
-      songPath={(songId) => `/perform/${songId}${suffix}`}
-      backTo={`/perform${suffix}`}
-      headerExtra={<QueueButton count={requests.length} onClick={openPanel} />}
-      banner={error ? <p className="perf-offline">Offline: using songs saved on this device.</p> : null}
-    />
+    <ErrorBoundary>
+      <SongViewer
+        songs={displayList}
+        index={index}
+        songPath={(songId) => `/perform/${songId}${suffix}`}
+        backTo={`/perform${suffix}`}
+        headerExtra={
+          <>
+            <TransposeControl semitones={semitones} onUp={up} onDown={down} onReset={reset} />
+            <QueueButton count={requests.length} onClick={openPanel} />
+          </>
+        }
+        banner={error ? <p className="perf-offline">Offline: using songs saved on this device.</p> : null}
+      />
+    </ErrorBoundary>
   );
 }

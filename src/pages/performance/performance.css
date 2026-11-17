@@ -91,3 +91,12 @@
 
 /* Standalone song links (public songbook pages have no star button) */
 .perf-song-solo { border: 1px solid var(--gt-border); border-radius: 12px; background: var(--gt-surface); }
+
+.perf-transpose { display: inline-flex; align-items: center; gap: 4px; }
+.perf-transpose button {
+  min-width: 36px; height: 36px; padding: 0 8px;
+  border-radius: 8px; border: 1px solid currentColor; background: transparent;
+  color: inherit; font: inherit; cursor: pointer;
+}
+.perf-transpose button:disabled { opacity: 0.5; cursor: default; }
+.perf-transpose-value { min-width: 64px; }
